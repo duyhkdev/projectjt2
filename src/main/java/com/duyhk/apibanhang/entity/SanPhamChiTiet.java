@@ -16,6 +16,7 @@ public class SanPhamChiTiet {
     private Long id;
     private String ma;
     private String ten;
+    private Long gia;
     private Long soLuongTonKho;
     private Long soLuongDaBan;
     private Integer trangThai;
