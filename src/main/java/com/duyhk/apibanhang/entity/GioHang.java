@@ -24,4 +24,9 @@ public class GioHang {
     @JoinColumn(name = "tai_khoan_id")
     private TaiKhoan taiKhoan;
 
+    public GioHang(Long tongSanPham, Long tongSoTien, TaiKhoan taiKhoan) {
+        this.tongSanPham = tongSanPham;
+        this.tongSoTien = tongSoTien;
+        this.taiKhoan = taiKhoan;
+    }
 }
