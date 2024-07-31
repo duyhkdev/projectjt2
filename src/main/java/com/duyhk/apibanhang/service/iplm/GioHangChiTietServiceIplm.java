@@ -39,8 +39,35 @@ public class GioHangChiTietServiceIplm implements GioHangChiTietService {
     }
 
     @Override
-    public void update(GioHangChiTietDTO dto, Long id) {
+    public void update(Long soLuong, Long id) {
+        GioHangChiTiet ghct = gioHangChiTietRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found ghct"));
+        ghct.setSoLuong(soLuong);
+        GioHang gioHang = ghct.getGioHang();
+        Long thanhTienMoi = soLuong * ghct.getSanPhamChiTiet().getGia();
+        /*
+            Giỏ hàng đang có giá 1000000 -> 1100000
+            Giỏ hàng chi tiết cũ 200000
+            Sửa số lượng -> Giỏ hàng chi tiết -> 300000
+         */
+        gioHang.setTongSoTien(
+                gioHang.getTongSoTien() - ghct.getThanhTien() + thanhTienMoi
+        );
+        ghct.setThanhTien(thanhTienMoi);
+        gioHangRepo.save(gioHang);
+        gioHangChiTietRepo.save(ghct);
 
+    }
+
+    @Override
+    public void delete(Long id) {
+        GioHangChiTiet ghct = gioHangChiTietRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found ghct"));
+        GioHang gioHang = ghct.getGioHang();
+        gioHang.setTongSanPham(gioHang.getTongSanPham() - 1);
+        gioHang.setTongSoTien(gioHang.getTongSoTien() - ghct.getThanhTien());
+        gioHangRepo.save(gioHang);
+        gioHangChiTietRepo.deleteById(id);
     }
 
     public void mapToEntity(GioHangChiTiet entity, GioHangChiTietDTO dto) {

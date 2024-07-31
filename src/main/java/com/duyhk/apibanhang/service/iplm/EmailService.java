@@ -1,16 +1,14 @@
 package com.duyhk.apibanhang.service.iplm;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class EmailService {
-    private JavaMailSender emailSender = new JavaMailSenderImpl();
+    @Autowired
+    private JavaMailSender mailSender;
 
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -18,6 +16,6 @@ public class EmailService {
         message.setSubject(subject);
         message.setText(body);
 
-        emailSender.send(message);
+        mailSender.send(message);
     }
 }

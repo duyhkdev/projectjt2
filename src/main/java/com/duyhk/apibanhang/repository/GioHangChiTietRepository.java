@@ -10,4 +10,5 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
 
     // select * from gio_hang_chi_tiet where gio_hang_id = ? and san_pham_chi_tiet_id = ?
     Optional<GioHangChiTiet> findByGioHangIdAndSanPhamChiTietId(Long gioHangId, Long spctId);
+    List<GioHangChiTiet> findByGioHangId(Long gioHangId);
 }

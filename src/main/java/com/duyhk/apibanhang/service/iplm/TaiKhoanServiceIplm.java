@@ -39,9 +39,9 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
         entity.setTongTien(0l);
         entity.setHangTaiKhoan(1);
         entity.setTrangThai(1);
-        TaiKhoan tkSave = taiKhoanRepo.save(entity); // luu vao db sau do select lai
-        GioHang gioHang = new GioHang(0l, 0l, tkSave);
-        gioHangRepo.save(gioHang);
+//        TaiKhoan tkSave = taiKhoanRepo.save(entity); // luu vao db sau do select lai
+//        GioHang gioHang = new GioHang(0l, 0l, tkSave);
+//        gioHangRepo.save(gioHang);
         emailService.sendEmail(
                 entity.getEmail(),
                 "Đăng ký taì khoản",

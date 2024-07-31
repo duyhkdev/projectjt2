@@ -12,5 +12,6 @@ public interface GioHangChiTietService {
 
     void create(GioHangChiTietDTO dto);
 
-    void update(GioHangChiTietDTO dto, Long id );
+    void update(Long soLuong, Long id );
+    void delete(Long id);
 }
