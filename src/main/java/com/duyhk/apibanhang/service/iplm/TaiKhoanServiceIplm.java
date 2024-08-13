@@ -7,7 +7,9 @@ import com.duyhk.apibanhang.repository.GioHangRepository;
 import com.duyhk.apibanhang.repository.TaiKhoanRepository;
 import com.duyhk.apibanhang.service.TaiKhoanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
     private final TaiKhoanRepository taiKhoanRepo;
     private final GioHangRepository gioHangRepo;
     private final EmailService emailService;
+    private final PasswordEncoder encoder;
 
     @Override
     public List<TaiKhoanDTO> getAll(Integer page, Integer size) {
@@ -39,13 +42,13 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
         entity.setTongTien(0l);
         entity.setHangTaiKhoan(1);
         entity.setTrangThai(1);
-//        TaiKhoan tkSave = taiKhoanRepo.save(entity); // luu vao db sau do select lai
-//        GioHang gioHang = new GioHang(0l, 0l, tkSave);
-//        gioHangRepo.save(gioHang);
-        emailService.sendEmail(
-                entity.getEmail(),
-                "Đăng ký taì khoản",
-                "Hello " + entity.getHoVaTen());
+        TaiKhoan tkSave = taiKhoanRepo.save(entity); // luu vao db sau do select lai
+        GioHang gioHang = new GioHang(0l, 0l, tkSave);
+        gioHangRepo.save(gioHang);
+//        emailService.sendEmail(
+//                entity.getEmail(),
+//                "Đăng ký taì khoản",
+//                "Hello " + entity.getHoVaTen());
     }
 
     @Override
@@ -56,7 +59,7 @@ public class TaiKhoanServiceIplm implements TaiKhoanService {
     private void mapToEntity(TaiKhoan entity, TaiKhoanDTO dto) {
         entity.setMa(dto.getMa());
         entity.setEmail(dto.getEmail());
-        entity.setMatKhau(dto.getMatKhau());
+        entity.setMatKhau(encoder.encode(dto.getMatKhau()));
         entity.setHoVaTen(dto.getHoVaTen());
         entity.setRole(dto.getRole());
     }
